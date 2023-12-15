@@ -8,6 +8,7 @@ pytest = "*"
 psycopg2 = "*"
 pytest-mock = "*"
 mock = "*"
+iniconfig = "*"
 
 [dev-packages]
 
