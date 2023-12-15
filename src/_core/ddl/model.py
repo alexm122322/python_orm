@@ -34,7 +34,7 @@ class ModelColumnValue:
             ValueError: If column is not nullable but value is None.
             If value is not valid. Check out `ColumnType`.validate_value.
         """
-        
+
         if not self.column.nullable and value is None:
             raise ValueError('Value shuold be not None')
 
@@ -50,10 +50,10 @@ class ModelColumnValue:
 
     def insert_value(self, adapter: SqlAdapter) -> str:
         """SQL adapted value.
-        
+
         Args:
             adapter: SQL adapter.
-            
+
         Return:
             str: SQL adapted value.
         """
@@ -99,7 +99,7 @@ class ModelColumnValues:
     def get_column_by_field_name(self, field_name: str) -> ModelColumnValue:
         column = self.find_column_by_field_name(field_name)
         return column
-    
+
     def find_column_by_field_name(self, field_name: str) -> ModelColumnValue | None:
         index = [v.field_name for v in self.columns].index(field_name)
         if index == -1:

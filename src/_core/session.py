@@ -49,7 +49,7 @@ class Session(ABC):
     @abstractmethod
     def execute(self, sql: str):
         """Excute sql.
-        
+
         Args:
             sql: The SQL which will be execute.
         """

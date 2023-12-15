@@ -29,7 +29,7 @@ class Engine:
     """The Engine of python_orm package. 
     Engine connecting to the database and create `connection`. 
     Check out the `_connect_to_db` function.
-    
+
     Args:
         url: The object of database url.
         version: The version of the database. For migration purposes.
@@ -39,6 +39,7 @@ class Engine:
         connection: The connection with the database.
         adapter: The SQL adapter. Contains methods and properties with SQL languages.
     """
+
     def __init__(
         self,
         url: Url,
@@ -69,7 +70,7 @@ class Engine:
                 if isinstance(item, OrmDBVersion):
                     continue
                 session.create_table(item)
-                
+
     def disconnect(self):
         """Disconnected from the database. Closes connection."""
         self.connect.close()

@@ -3,6 +3,7 @@ from typing import Any
 
 from .url import Url
 
+
 class Connectin(ABC):
     """The Connection to database."""
     @abstractmethod
@@ -16,7 +17,7 @@ class Connectin(ABC):
             Any: Database connection.
         """
         pass
-    
+
     @abstractmethod
     def close(self):
         """Close database connection."""

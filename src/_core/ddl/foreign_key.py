@@ -3,7 +3,7 @@ from ..drivers.sql_adapter import SqlAdapter
 
 class ForeignKey:
     """Realization of the Foreign Key.
-    
+
     Args:
         name: The name of the Foreign Key.
         key_column: The name of Foreign Key column.
@@ -12,6 +12,7 @@ class ForeignKey:
         ondelete: The behavior of deleting. For example 'ON CASCADE'
         onupdate: The behavior of updating. For example 'ON CASCADE'
     """
+
     def __init__(
         self,
         name: str,

@@ -5,11 +5,11 @@ from ...session import Session
 
 class Psycopg2Sesion(Session):
     """Psycopg2 Session implementation."""
-    
+
     def connect(self):
         super().connect()
         self._cursor = self._connection.cursor()
-        
+
     def __iter__(self):
         self.connect()
         return self

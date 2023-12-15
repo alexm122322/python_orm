@@ -42,7 +42,7 @@ class Column:
 
         Returns:
             str: Value for SQL.
-            
+
         Raises:
             ValueError: The value is invalid.
         """

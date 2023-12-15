@@ -106,8 +106,8 @@ def test_add_table():
     
 def test_drop_table():
     init_engine()
-    class Test2(Model):
-        __tablename__ = 'test2'
+    class Test(Model):
+        __tablename__ = 'test'
         value = Column(name='value', type=Integer())
         
     def migrate(

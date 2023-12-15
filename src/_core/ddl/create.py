@@ -11,7 +11,7 @@ class CreateTable:
         adapter: The SQL adapter for different stmp.
         session(Session): The session for executing stmp.
     """
-    
+
     def __init__(
         self,
         adapter: SqlAdapter,

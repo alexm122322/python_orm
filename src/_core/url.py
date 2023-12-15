@@ -5,7 +5,7 @@ from dataclasses import dataclass
 @dataclass
 class Url:
     """The Data object for database connection.
-    
+
     Args:
         driver: The name of the driver. At the moment `psycopg2` support only.
         host: The host of the database. For example `localhost`.
