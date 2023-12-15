@@ -1,0 +1,2 @@
+class DifferentModelsTypeError(Exception):
+    pass
