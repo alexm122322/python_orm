@@ -25,11 +25,7 @@ The engine class is also a migration entry point. You can pass the `version` of 
 ```python
 from python_orm import Migration, Engine
 
-def _on_update(
-    migration: Migration,
-    old_version: int,
-    current_version: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     pass
 
 engine = Engine(
@@ -52,11 +48,7 @@ class Test(Model):
     __tablename__ = 'test'
     value = Column(name='value', type=Integer())
         
-def migrate(
-    migration: Migration,
-    _: int,
-    __: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.create_table(Test)
     
 engine = Engine(url, 1, migrate)
@@ -68,11 +60,7 @@ Deletes table by table name. The first arg is the table name.
 ```python
 from python_orm import Migration, Engine
      
-def migrate(
-    migration: Migration,
-    _: int,
-    __: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.delete_table('test')
     
 engine = Engine(url, 1, migrate)
@@ -84,11 +72,7 @@ Addes volumn(`Column`) to table by table name. The first arg is the table name. 
 ```python
 from python_orm import Column, String, Migration, Engine
      
-def migrate(
-    migration: Migration,
-    _: int,
-    __: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.add_column('test', Column(name='value2', type=String()))
     
 engine = Engine(url, 1, migrate)
@@ -100,11 +84,7 @@ Deletes the column by table name. The first arg is the table name. The second ar
 ```python
 from python_orm import Column, String, Migration, Engine
      
-def migrate(
-    migration: Migration,
-    _: int,
-    __: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.delete_column('test', 'value')
     
 engine = Engine(url, 1, migrate)
@@ -116,11 +96,7 @@ Renames the table name. The first arg is the current table name. The second arg 
 ```python
 from python_orm import Column, String, Migration, Engine
      
-def migrate(
-    migration: Migration,
-    _: int,
-    __: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.change_table_name('test', 'test1')
     
 engine = Engine(url, 1, migrate)
