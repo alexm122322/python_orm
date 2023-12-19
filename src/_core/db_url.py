@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Url:
+class DbUrl:
     """The Data object for database connection.
 
     Args:

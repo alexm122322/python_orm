@@ -3,7 +3,7 @@ from .drivers.sql_adapter_factory import SqlAdapterFactory
 from .drivers.session_factory import SessionFactory
 from .drivers.connection_factory import ConnectionFactory
 
-from .url import Url
+from .db_url import DbUrl
 from .session import Session
 from .orm_db_version import OrmDBVersion
 from .ddl.model import Model
@@ -36,7 +36,7 @@ class Engine:
         adapter: The SQL adapter. Contains methods and properties with SQL languages.
     """
 
-    def __init__(self, url: Url, version: int = 0, on_update: FunctionType = _on_update):
+    def __init__(self, url: DbUrl, version: int = 0, on_update: FunctionType = _on_update):
         self._url = url
         self.version = version
         self._on_update = on_update

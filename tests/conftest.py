@@ -1,5 +1,5 @@
 from typing import Generator
-from src.orm import Engine, Url, create_session
+from src.orm import Engine, DbUrl, create_session
 import pytest
 
 
@@ -37,7 +37,7 @@ class Project(Model):
 
 @pytest.fixture(scope='session')
 def db_session(request) -> Generator:
-    url = Url(
+    url = DbUrl(
         driver='psycopg2',
         host='localhost',
         database='test',

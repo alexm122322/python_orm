@@ -1,7 +1,7 @@
-from src.orm import Migration, Url, Engine, Model, Column, Integer, String
+from src.orm import Migration, DbUrl, Engine, Model, Column, Integer, String
 
 
-url = Url(
+url = DbUrl(
     driver='psycopg2',
     host='localhost',
     database='test1',

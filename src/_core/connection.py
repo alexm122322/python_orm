@@ -1,13 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
-from .url import Url
+from .db_url import DbUrl
 
 
 class Connectin(ABC):
     """The Connection to database."""
     @abstractmethod
-    def connect(self, url: Url) -> Any:
+    def connect(self, url: DbUrl) -> Any:
         """Connect to database.
 
         Args:
