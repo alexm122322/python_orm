@@ -2,7 +2,7 @@ from abc import ABC
 from typing import Any, Dict, List, Tuple
 from .column import Column
 from .foreign_key import ForeignKey
-from .column_types.primary_key import PrimaryKey
+from .column_types.primary_key import PrimaryKeyColumnType
 from ..drivers.sql_adapter import SqlAdapter
 from .errors import ValueError
 
@@ -216,6 +216,6 @@ class Model(ABC):
     def _find_id(self):
         """Find the id through columns."""
         for c in self.column_values.columns:
-            if isinstance(c.column.type, PrimaryKey):
+            if isinstance(c.column.type, PrimaryKeyColumnType):
                 self._id = c.column
                 return

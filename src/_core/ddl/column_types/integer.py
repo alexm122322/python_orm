@@ -2,7 +2,7 @@ from .column_type import ColumnType
 from ...drivers.sql_adapter import SqlAdapter
 
 
-class Integer(ColumnType):
+class IntegerColumnType(ColumnType):
     """ColumnType implementation for integer.
 
     Args:

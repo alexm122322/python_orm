@@ -1,11 +1,11 @@
 from typing import Any
 from .column_type import ColumnType
-from .integer import Integer
+from .integer import IntegerColumnType
 from ..errors import AutoincrementTypeError
 from ...drivers.sql_adapter import SqlAdapter
 
 
-class PrimaryKey(ColumnType):
+class PrimaryKeyColumnType(ColumnType):
     """ColumnType implementation for Primary Key.
 
     Args:
@@ -13,7 +13,7 @@ class PrimaryKey(ColumnType):
         autoincrement: True if the Primary key should be auto-increment. 
         False by default. At the moment supports only `Integer`. 
     """
-    _autoincrement_types = [Integer]
+    _autoincrement_types = [IntegerColumnType]
 
     def __init__(self, type: ColumnType, autoincrement: bool = False):
         super().__init__(None)

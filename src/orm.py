@@ -1,11 +1,11 @@
 from _core.ddl.column import Column
 from _core.ddl.model import Model
 
-from _core.ddl.column_types.integer import Integer
-from _core.ddl.column_types.string import String
-from _core.ddl.column_types.datatime import DATETIME
-from _core.ddl.column_types.boolean import BOOLEAN
-from _core.ddl.column_types.primary_key import PrimaryKey
+from _core.ddl.column_types.integer import IntegerColumnType
+from _core.ddl.column_types.string import StringColumnType
+from _core.ddl.column_types.datatime import DatetimeColumnType
+from _core.ddl.column_types.boolean import BooleanColumnType
+from _core.ddl.column_types.primary_key import PrimaryKeyColumnType
 from _core.ddl.foreign_key import ForeignKey
 from _core.ddl.migration import Migration
 

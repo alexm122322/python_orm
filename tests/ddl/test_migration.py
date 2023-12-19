@@ -1,4 +1,4 @@
-from src.orm import Migration, DbUrl, Engine, Model, Column, Integer, String
+from src.orm import Migration, DbUrl, Engine, Model, Column, IntegerColumnType, StringColumnType
 
 
 url = DbUrl(
@@ -13,7 +13,7 @@ url = DbUrl(
 
 class Test(Model):
     __tablename__ = 'test'
-    value = Column(name='value', type=Integer(), nullable=False)
+    value = Column(name='value', type=IntegerColumnType(), nullable=False)
 
 
 def init_engine() -> Engine:
@@ -53,7 +53,7 @@ def test_add_column():
     init_engine()
 
     def migrate(migration: Migration, old_version: int, current_version: int):
-        migration.add_column('test', Column(name='value2', type=String()))
+        migration.add_column('test', Column(name='value2', type=StringColumnType()))
         columns = migration.table_columns('test')
         assert columns.__contains__('value2')
     engine = Engine(url, 1, migrate)
@@ -80,7 +80,7 @@ def test_add_table():
 
     class Test2(Model):
         __tablename__ = 'test2'
-        value = Column(name='value', type=Integer())
+        value = Column(name='value', type=IntegerColumnType())
 
     def migrate(migration: Migration, old_version: int, current_version: int):
         migration.create_table(Test2)
@@ -99,7 +99,7 @@ def test_drop_table():
 
     class Test(Model):
         __tablename__ = 'test'
-        value = Column(name='value', type=Integer())
+        value = Column(name='value', type=IntegerColumnType())
 
     def migrate(migration: Migration, old_version: int, current_version: int):
         migration.delete_table('test')

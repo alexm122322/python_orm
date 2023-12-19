@@ -1,5 +1,5 @@
-from src.orm import (DbUrl, Model, Column, Integer,
-                     Engine, create_session, String, Migration, BOOLEAN, DATETIME)
+from src.orm import (DbUrl, Model, Column, IntegerColumnType,
+                     Engine, create_session, StringColumnType, Migration, BooleanColumnType, DatetimeColumnType)
 
 url = DbUrl(
     driver='psycopg2',
@@ -16,7 +16,7 @@ engine = Engine(url=url)
 def test_integer_columns():
     class Test(Model):
         __tablename__ = 'test'
-        value = Column(name='value', type=Integer(), nullable=False)
+        value = Column(name='value', type=IntegerColumnType(), nullable=False)
 
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
@@ -33,7 +33,7 @@ def test_integer_columns():
 def test_string_columns():
     class Test(Model):
         __tablename__ = 'test'
-        value = Column(name='value', type=String(
+        value = Column(name='value', type=StringColumnType(
             len=1, default='s'), nullable=False)
 
     with create_session(engine) as session:
@@ -52,7 +52,7 @@ def test_string_columns():
 def test_boolean_columns():
     class Test(Model):
         __tablename__ = 'test'
-        value = Column(name='value', type=BOOLEAN(), nullable=True)
+        value = Column(name='value', type=BooleanColumnType(), nullable=True)
 
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
@@ -70,7 +70,7 @@ def test_boolean_columns():
 def test_datetime_columns():
     class Test(Model):
         __tablename__ = 'test'
-        value = Column(name='value', type=DATETIME(), nullable=True)
+        value = Column(name='value', type=DatetimeColumnType(), nullable=True)
 
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)

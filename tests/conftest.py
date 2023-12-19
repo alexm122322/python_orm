@@ -3,18 +3,18 @@ from src.orm import Engine, DbUrl, create_session
 import pytest
 
 
-from src.orm import Model, Column, Integer, PrimaryKey, ForeignKey, DATETIME, psycopg2_datetime_now, BOOLEAN, String
+from src.orm import Model, Column, IntegerColumnType, PrimaryKeyColumnType, ForeignKey, DatetimeColumnType, psycopg2_datetime_now, BooleanColumnType, StringColumnType
 
 
 class User(Model):
     __tablename__ = '"user"'
 
-    id = Column(name='id', type=PrimaryKey(
-        type=Integer(), autoincrement=True), unique=True)
-    email = Column(name='email', type=String(), nullable=False, unique=True)
-    age = Column(name='age', type=Integer(default=18))
-    is_admin = Column(name='is_admin', type=BOOLEAN(default=True))
-    create_at = Column(name='create_at', type=DATETIME(default=psycopg2_datetime_now))
+    id = Column(name='id', type=PrimaryKeyColumnType(
+        type=IntegerColumnType(), autoincrement=True), unique=True)
+    email = Column(name='email', type=StringColumnType(), nullable=False, unique=True)
+    age = Column(name='age', type=IntegerColumnType(default=18))
+    is_admin = Column(name='is_admin', type=BooleanColumnType(default=True))
+    create_at = Column(name='create_at', type=DatetimeColumnType(default=psycopg2_datetime_now))
 
 
 class Project(Model):
@@ -28,11 +28,11 @@ class Project(Model):
         onupdate='CASCADE',
     )
 
-    id = Column(name='id', type=PrimaryKey(
-        type=Integer()), unique=True, nullable=False)
-    user_id = Column(name='user_id', type=Integer(),
+    id = Column(name='id', type=PrimaryKeyColumnType(
+        type=IntegerColumnType()), unique=True, nullable=False)
+    user_id = Column(name='user_id', type=IntegerColumnType(),
                      unique=True, nullable=False)
-    is_active = Column(name='is_active', type=BOOLEAN(default=True))
+    is_active = Column(name='is_active', type=BooleanColumnType(default=True))
 
 
 @pytest.fixture(scope='session')

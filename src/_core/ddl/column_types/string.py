@@ -2,7 +2,7 @@ from .column_type import ColumnType
 from ...drivers.sql_adapter import SqlAdapter
 
 
-class String(ColumnType):
+class StringColumnType(ColumnType):
     """ColumnType implementation for string.
 
     Args:
