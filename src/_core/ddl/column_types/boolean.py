@@ -9,10 +9,7 @@ class BOOLEAN(ColumnType):
         default: The default bool value.
     """
 
-    def __init__(
-        self,
-        default: bool | None = None,
-    ):
+    def __init__(self, default: bool | None = None):
         super().__init__(bool, default)
 
     def _sql(self, adapter: SqlAdapter) -> str:

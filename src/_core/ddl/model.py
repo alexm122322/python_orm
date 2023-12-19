@@ -15,11 +15,7 @@ class ModelColumnValue:
         column: The column of field.
     """
 
-    def __init__(
-        self,
-        field_name: str,
-        column: Column,
-    ):
+    def __init__(self, field_name: str, column: Column):
         self.field_name = field_name
         self.column = column
         self._value: Any = None

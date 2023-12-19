@@ -13,23 +13,13 @@ class Delete:
         session(Session): The session for executing stmp.
     """
 
-    def __init__(
-        self,
-        model,
-        adapter: SqlAdapter,
-        session,
-    ):
+    def __init__(self, model, adapter: SqlAdapter, session):
         self._adapter = adapter
         self._session = session
         self._model = model
         self._conditions = []
 
-    def where(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def where(self, column: Column, value: Any, condition: str = '='):
         """Adds WHERE condition to stmp.
         For getting row(s) use `first` or `all` method.
 
@@ -46,12 +36,7 @@ class Delete:
         self._conditions.append(f'{column.name} {condition} {value}')
         return self
 
-    def and_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def and_(self, column: Column, value: Any, condition: str = '='):
         """Adds AND condition to stmp.
         Use `where` first!
         For getting row(s) use `first` or `all` method.
@@ -69,12 +54,7 @@ class Delete:
         self._conditions.append(f'AND {column.name} {condition} {value}')
         return self
 
-    def or_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def or_(self, column: Column, value: Any, condition: str = '='):
         """Adds OR condition to stmp.
         Use `where` first!
         For getting row(s) use `first` or `all` method.
@@ -94,7 +74,6 @@ class Delete:
 
     def commit(self):
         """Executes DELETE stmp"""
-
         model = self._model()
         stmp = self._adapter.delete(model.__tablename__, self._conditions)
         self._session.execute(stmp)

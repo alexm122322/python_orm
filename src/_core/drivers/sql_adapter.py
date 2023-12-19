@@ -82,15 +82,9 @@ class SqlAdapter(ABC):
 
         return f'{value}'
 
-    def foreign_key(
-        self,
-        name: str,
-        key_column: str,
-        parent_table: str,
-        parent_key_columns: str,
-        ondelete: str | None = None,
-        onupdate: str | None = None,
-    ) -> str:
+    def foreign_key(self, name: str, key_column: str, parent_table: str,
+                    parent_key_columns: str, ondelete: str | None = None,
+                    onupdate: str | None = None) -> str:
         sql = _foreign_key.format(
             name=name,
             key_column=key_column,
@@ -106,13 +100,9 @@ class SqlAdapter(ABC):
             ON UPDATE {onupdate}'''
         return sql
 
-    def create_table(
-        self,
-        name: str,
-        column_sqls: List[str],
-        if_not_exist: bool = False,
-        foreign_key: str | None = None,
-    ) -> str:
+    def create_table(self, name: str, column_sqls: List[str],
+                     if_not_exist: bool = False,
+                     foreign_key: str | None = None) -> str:
         columns = ',\n    '.join([i for i in column_sqls])
         foreign_key = f',{foreign_key}' if foreign_key is not None else ''
         if_not_exist_sql = f'{self.if_not_exist} ' if if_not_exist else ''
@@ -128,13 +118,8 @@ class SqlAdapter(ABC):
     def datetime_now(self) -> str:
         return f'now()'
 
-    def select(
-        self,
-        table: str,
-        columns: List[str] | None = None,
-        limit: int | None = None,
-        where: List[str] | None = None,
-    ) -> str:
+    def select(self, table: str, columns: List[str] | None = None,
+               limit: int | None = None, where: List[str] | None = None) -> str:
         columns = ',\n    '.join(columns) if columns is not None else '*'
         sql = f'''SELECT {columns} FROM {table}'''
 
@@ -146,10 +131,7 @@ class SqlAdapter(ABC):
         sql += ';'
         return sql
 
-    def limit(
-        self,
-        limit: int,
-    ) -> str:
+    def limit(self, limit: int) -> str:
         return f'LIMIT {limit}'
 
     @property
@@ -159,13 +141,9 @@ CREATE SCHEMA public;
 GRANT ALL ON SCHEMA public TO postgres;
 GRANT ALL ON SCHEMA public TO public;'''
 
-    def insert_items(
-        self,
-        table: str,
-        columns: List[str],
-        list_values: List[List[Any]],
-        id_column: str | None = None,
-    ) -> str:
+    def insert_items(self, table: str, columns: List[str],
+                     list_values: List[List[Any]],
+                     id_column: str | None = None) -> str:
         columns_str = ', '.join(columns)
         values_str_list = []
         returing = f'\nRETURNING {id_column}' if id_column is not None else ''
@@ -184,12 +162,8 @@ VALUES ({values_str}{returing};'''
             condition_str += '\n'.join(conditions)
         return f'DELETE FROM {tablename}{condition_str};'
 
-    def update(
-        self,
-        tablename: str,
-        conditions: List[str],
-        name_value: Dict[str, str]
-    ) -> str:
+    def update(self, tablename: str, conditions: List[str],
+               name_value: Dict[str, str]) -> str:
         condition_str = ''
 
         if conditions:

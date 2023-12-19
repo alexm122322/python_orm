@@ -14,25 +14,15 @@ class Update:
         name_value: Name value mapping for SET in UPDATE stmp.
     """
 
-    def __init__(
-        self,
-        model,
-        adapter: SqlAdapter,
-        session,
-        name_value: Dict[str, str]
-    ):
+    def __init__(self, model, adapter: SqlAdapter, session,
+                 name_value: Dict[str, str]):
         self._adapter = adapter
         self._session = session
         self._model = model
         self._name_value = name_value
         self._conditions = []
 
-    def where(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def where(self, column: Column, value: Any, condition: str = '='):
         """Adds WHERE condition to stmp.
         For getting row(s) use `first` or `all` method.
 
@@ -49,12 +39,7 @@ class Update:
         self._conditions.append(f'{column.name} {condition} {value}')
         return self
 
-    def and_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def and_(self, column: Column, value: Any, condition: str = '='):
         """Adds AND condition to stmp.
         Use `where` first!
         For getting row(s) use `first` or `all` method.
@@ -72,12 +57,7 @@ class Update:
         self._conditions.append(f'AND {column.name} {condition} {value}')
         return self
 
-    def or_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def or_(self, column: Column, value: Any, condition: str = '='):
         """Adds OR condition to stmp.
         Use `where` first!
         For getting row(s) use `first` or `all` method.

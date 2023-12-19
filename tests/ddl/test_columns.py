@@ -1,5 +1,5 @@
 from src.orm import (Url, Model, Column, Integer,
-                     Engine, create_session, String, Migration, BOOLEAN, DATETIME, )
+                     Engine, create_session, String, Migration, BOOLEAN, DATETIME)
 
 url = Url(
     driver='psycopg2',

@@ -9,11 +9,7 @@ class String(ColumnType):
         default: The default str value.
     """
 
-    def __init__(
-        self,
-        len: int = 255,
-        default: str | None = None,
-    ):
+    def __init__(self, len: int = 255, default: str | None = None):
         super().__init__(str, default)
         self._len = len
 

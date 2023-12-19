@@ -13,15 +13,9 @@ class ForeignKey:
         onupdate: The behavior of updating. For example 'ON CASCADE'
     """
 
-    def __init__(
-        self,
-        name: str,
-        key_column: str,
-        parent_table: str,
-        parent_key_columns: str,
-        ondelete: str | None = None,
-        onupdate: str | None = None,
-    ):
+    def __init__(self, name: str, key_column: str, parent_table: str,
+                 parent_key_columns: str, ondelete: str | None = None,
+                 onupdate: str | None = None):
         self._name = name
         self._key_column = key_column
         self._parent_table = parent_table
@@ -29,7 +23,7 @@ class ForeignKey:
         self._ondelete = ondelete
         self._onupdate = onupdate
 
-    def sql(self, adapter: SqlAdapter,) -> str:
+    def sql(self, adapter: SqlAdapter) -> str:
         """Creates SQL for the Foreign Key.
 
         Args:

@@ -13,11 +13,7 @@ class ColumnType(ABC):
         default: The default value of the column.
     """
 
-    def __init__(
-        self,
-        type,
-        default: Any | None = None,
-    ):
+    def __init__(self, type, default: Any | None = None):
         self.type = type
         self.default = default
 

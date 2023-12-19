@@ -1,4 +1,3 @@
-from datetime import datetime
 from src.orm import Session
 from tests.conftest import User
 from tests.init_funcs import insert_all, delete_all

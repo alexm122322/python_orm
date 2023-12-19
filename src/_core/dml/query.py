@@ -15,12 +15,7 @@ class Query(Generic[_T]):
         session(Session): The session for executing query.
     """
 
-    def __init__(
-        self,
-        model_class,
-        adapter: SqlAdapter,
-        session,
-    ):
+    def __init__(self, model_class, adapter: SqlAdapter, session):
         self._model_class = model_class
         self._model = model_class()
         self._adapter = adapter
@@ -43,12 +38,7 @@ class Query(Generic[_T]):
 
         return query
 
-    def where(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def where(self, column: Column, value: Any, condition: str = '='):
         """Adds WHERE condition to query.
         For getting row(s) use `first` or `all` method.
 
@@ -65,12 +55,7 @@ class Query(Generic[_T]):
         self._conditions.append(f'{column.name} {condition} {value}')
         return self
 
-    def and_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def and_(self, column: Column, value: Any, condition: str = '='):
         """Adds AND condition to query.
         Use `where` first!
         For getting row(s) use `first` or `all` method.
@@ -88,12 +73,7 @@ class Query(Generic[_T]):
         self._conditions.append(f'AND {column.name} {condition} {value}')
         return self
 
-    def or_(
-        self,
-        column: Column,
-        value: Any,
-        condition: str = '='
-    ):
+    def or_(self, column: Column, value: Any, condition: str = '='):
         """Adds OR condition to query.
         Use `where` first!
         For getting row(s) use `first` or `all` method.

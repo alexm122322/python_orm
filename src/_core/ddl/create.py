@@ -12,11 +12,7 @@ class CreateTable:
         session(Session): The session for executing stmp.
     """
 
-    def __init__(
-        self,
-        adapter: SqlAdapter,
-        session
-    ):
+    def __init__(self, adapter: SqlAdapter, session):
         self._adapter = adapter
         self._session = session
 

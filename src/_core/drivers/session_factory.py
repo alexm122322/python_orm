@@ -12,11 +12,7 @@ from .psycopg2.session import Psycopg2Sesion
 class SessionFactory(ABC):
     """The Session factory."""
 
-    def create(
-        driver: str,
-        connection: Any,
-        adapter: SqlAdapter
-    ) -> Session:
+    def create(driver: str, connection: Any, adapter: SqlAdapter) -> Session:
         """Create `Session` by driver name.
 
         Args:

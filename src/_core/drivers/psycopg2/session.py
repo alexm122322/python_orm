@@ -28,18 +28,12 @@ class Psycopg2Sesion(Session):
     def commit(self):
         self._connection.commit()
 
-    def fetch_one(
-        self,
-        sql: str,
-    ) -> Tuple[Any] | None:
+    def fetch_one(self, sql: str) -> Tuple[Any] | None:
         self._cursor.execute(sql)
         result = self._cursor.fetchone()
         return result
 
-    def fetch_all(
-        self,
-        sql: str,
-    ) -> List[Tuple[str, Any]]:
+    def fetch_all(self, sql: str) -> List[Tuple[str, Any]]:
         self._cursor.execute(sql)
         result = self._cursor.fetchall()
         return result

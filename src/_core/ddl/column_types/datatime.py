@@ -13,10 +13,7 @@ class DATETIME(ColumnType):
         default: The default function or str value.
     """
 
-    def __init__(
-        self,
-        default: FunctionType | str | None = None,
-    ):
+    def __init__(self, default: FunctionType | str | None = None):
         super().__init__(datetime, default)
 
     def _sql(self, adapter: SqlAdapter) -> str:

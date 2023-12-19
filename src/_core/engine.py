@@ -10,11 +10,7 @@ from .ddl.model import Model
 from .ddl.migration import Migration
 
 
-def _on_update(
-    migration: Migration,
-    old_version: int,
-    current_version: int,
-):
+def _on_update(migration: Migration, old_version: int, current_version: int):
     """On Ugrade tamplate.
 
     Args:
@@ -40,12 +36,7 @@ class Engine:
         adapter: The SQL adapter. Contains methods and properties with SQL languages.
     """
 
-    def __init__(
-        self,
-        url: Url,
-        version: int = 0,
-        on_update: FunctionType = _on_update,
-    ):
+    def __init__(self, url: Url, version: int = 0, on_update: FunctionType = _on_update):
         self._url = url
         self.version = version
         self._on_update = on_update

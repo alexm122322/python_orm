@@ -9,10 +9,7 @@ class Integer(ColumnType):
         default: The default int value.
     """
 
-    def __init__(
-        self,
-        default: int | None = None,
-    ):
+    def __init__(self, default: int | None = None):
         super().__init__(int, default)
 
     def _sql(self, adapter: SqlAdapter) -> str:

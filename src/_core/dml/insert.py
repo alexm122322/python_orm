@@ -12,11 +12,7 @@ class Insert:
         session: The session for running stmps.
     """
 
-    def __init__(
-        self,
-        adapter: SqlAdapter,
-        session,
-    ):
+    def __init__(self, adapter: SqlAdapter, session):
         self._adpter = adapter
         self._session = session
         self._items: List[Model] = []

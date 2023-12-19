@@ -20,10 +20,7 @@ class Session(ABC):
         adapter: The SQL adapter for queries.
     """
 
-    def __init__(self,
-                 connection: Any,
-                 adapter: SqlAdapter
-                 ):
+    def __init__(self, connection: Any, adapter: SqlAdapter):
         self.adapter = adapter
         self._connection = connection
 
@@ -61,10 +58,7 @@ class Session(ABC):
         pass
 
     @abstractmethod
-    def fetch_one(
-        self,
-        sql: str,
-    ) -> Tuple[Any] | None:
+    def fetch_one(self, sql: str) -> Tuple[Any] | None:
         """Fetch one result of sql.
 
         Args:
@@ -76,10 +70,7 @@ class Session(ABC):
         pass
 
     @abstractmethod
-    def fetch_all(
-        self,
-        sql: str,
-    ) -> List[Tuple[Any]]:
+    def fetch_all(self, sql: str) -> List[Tuple[Any]]:
         """Fetch all results of sql.
 
         Args:

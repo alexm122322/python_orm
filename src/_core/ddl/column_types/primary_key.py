@@ -15,11 +15,7 @@ class PrimaryKey(ColumnType):
     """
     _autoincrement_types = [Integer]
 
-    def __init__(
-        self,
-        type: ColumnType,
-        autoincrement: bool = False,
-    ):
+    def __init__(self, type: ColumnType, autoincrement: bool = False):
         super().__init__(None)
         self.type = type
         self.autoincrement = autoincrement
