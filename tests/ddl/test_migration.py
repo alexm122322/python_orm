@@ -54,7 +54,8 @@ def test_add_column():
     init_engine()
 
     def migrate(migration: Migration, old_version: int, current_version: int):
-        migration.add_column('test', Column(name='value2', type=StringColumnType()))
+        migration.add_column('test', Column(
+            name='value2', type=StringColumnType()))
         columns = migration.table_columns('test')
         assert columns.__contains__('value2')
     engine = Engine(url, 1, migrate)

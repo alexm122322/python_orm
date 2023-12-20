@@ -177,7 +177,7 @@ class Model(ABC):
         return [value for _, value in members.items() if isinstance(value, Column)]
 
     @classmethod
-    def f(cls) -> ForeignKey | None:
+    def fkeys(cls) -> List[ForeignKey]:
         """Finds the Foreign Key of the table.
 
         Returns:
@@ -185,10 +185,15 @@ class Model(ABC):
              None if Foreign Key does not exist in the template of the table.
         """
         members = cls.__dict__
+        f_keys = []
         for _, value in members.items():
             if isinstance(value, ForeignKey):
-                return value
-        return None
+                f_keys.append(value)
+            elif isinstance(value, List):
+                for item in value:
+                    if isinstance(item, ForeignKey):
+                        f_keys.append(value)
+        return f_keys
 
     @classmethod
     def tn(cls) -> str:

@@ -102,16 +102,18 @@ class SqlAdapter(ABC):
 
     def create_table(self, name: str, column_sqls: List[str],
                      if_not_exist: bool = False,
-                     foreign_key: str | None = None) -> str:
+                     foreign_keys: List[str] = []) -> str:
+        foreign_keys_sql = ',\n    '.join([i for i in foreign_keys])
+        if foreign_keys:
+            foreign_keys_sql = f',{foreign_keys_sql}'
         columns = ',\n    '.join([i for i in column_sqls])
-        foreign_key = f',{foreign_key}' if foreign_key is not None else ''
         if_not_exist_sql = f'{self.if_not_exist} ' if if_not_exist else ''
 
         return _create_teble_query.format(
             name=name,
             columns=columns,
             if_not_exist=if_not_exist_sql,
-            foreign_key=foreign_key,
+            foreign_key=foreign_keys_sql,
         )
 
     @property

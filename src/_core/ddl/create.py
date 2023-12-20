@@ -24,12 +24,14 @@ class CreateTable:
             model (Model): The table tamplate.
         """
         columns: List[Column] = model.c()
-        foreignkey: ForeignKey | None = model.f()
+        fkeys: List[ForeignKey] = model.fkeys()
         column_sqls = [column.sql(self._adapter) for column in columns]
-        foreign_key = foreignkey.sql(
-            self._adapter) if foreignkey is not None else None
 
         query = self._adapter.create_table(
-            model.tn(), column_sqls, True, foreign_key)
+            model.tn(),
+            column_sqls,
+            True,
+            [fkey.sql(self._adapter) for fkey in fkeys],
+        )
         self._session.execute(query)
         self._session.commit()
