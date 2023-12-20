@@ -21,12 +21,12 @@ def test_integer_columns():
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
         migration.create_table(Test)
-        info = session.fetch_one(engine.adapter.table_columns_info('test'))
-        assert info[0] == 'value'
-        assert info[1] == None
-        assert info[2] == 'NO'
-        assert info[3] == 'integer'
-        assert info[4] == None
+        info = session.table_info(Test).columns_info()[0]
+        assert info.column_name == 'value'
+        assert info.column_default == None
+        assert info.is_nullable == 'NO'
+        assert info.data_type == 'integer'
+        assert info.character_maximum_length == None
         migration.delete_table('test')
 
 
@@ -39,12 +39,12 @@ def test_string_columns():
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
         migration.create_table(Test)
-        info = session.fetch_one(engine.adapter.table_columns_info('test'))
-        assert info[0] == 'value'
-        assert info[1] == "'s'::character varying"
-        assert info[2] == 'NO'
-        assert info[3] == 'character varying'
-        assert info[4] == 1
+        info = session.table_info(Test).columns_info()[0]
+        assert info.column_name == 'value'
+        assert info.column_default == "'s'::character varying"
+        assert info.is_nullable == 'NO'
+        assert info.data_type == 'character varying'
+        assert info.character_maximum_length == 1
         migration.delete_table('test')
     engine.drop_all_tables()
 
@@ -57,12 +57,12 @@ def test_boolean_columns():
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
         migration.create_table(Test)
-        info = session.fetch_one(engine.adapter.table_columns_info('test'))
-        assert info[0] == 'value'
-        assert info[1] == None
-        assert info[2] == 'YES'
-        assert info[3].lower() == engine.adapter.boolean_column.lower()
-        assert info[4] == None
+        info = session.table_info(Test).columns_info()[0]
+        assert info.column_name == 'value'
+        assert info.column_default == None
+        assert info.is_nullable == 'YES'
+        assert info.data_type.lower() == engine.adapter.boolean_column.lower()
+        assert info.character_maximum_length == None
         migration.delete_table('test')
     engine.drop_all_tables()
 
@@ -75,12 +75,12 @@ def test_datetime_columns():
     with create_session(engine) as session:
         migration = Migration(engine.adapter, session)
         migration.create_table(Test)
-        info = session.fetch_one(engine.adapter.table_columns_info('test'))
-        assert info[0] == 'value'
-        assert info[1] == None
-        assert info[2] == 'YES'
-        assert info[3] == 'timestamp without time zone'
-        assert info[4] == None
+        info = session.table_info(Test).columns_info()[0]
+        assert info.column_name == 'value'
+        assert info.column_default == None
+        assert info.is_nullable == 'YES'
+        assert info.data_type == 'timestamp without time zone'
+        assert info.character_maximum_length == None
         migration.delete_table('test')
     engine.drop_all_tables()
     engine.disconnect()
