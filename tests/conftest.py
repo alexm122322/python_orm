@@ -11,10 +11,12 @@ class User(Model):
 
     id = Column(name='id', type=PrimaryKeyColumnType(
         type=IntegerColumnType(), autoincrement=True), unique=True)
-    email = Column(name='email', type=StringColumnType(), nullable=False, unique=True)
+    email = Column(name='email', type=StringColumnType(),
+                   nullable=False, unique=True)
     age = Column(name='age', type=IntegerColumnType(default=18))
     is_admin = Column(name='is_admin', type=BooleanColumnType(default=True))
-    create_at = Column(name='create_at', type=DatetimeColumnType(default=psycopg2_datetime_now))
+    create_at = Column(name='create_at', type=DatetimeColumnType(
+        default=psycopg2_datetime_now))
 
 
 class Project(Model):
@@ -45,6 +47,7 @@ def db_session(request) -> Generator:
         password='1234',
         port='5432',
     )
+
     def on_create(create_tables):
         create_tables([User, Project])
     engine = Engine(db_url=url, on_create=on_create)

@@ -2,6 +2,7 @@ from datetime import datetime
 from src.orm import Session
 from tests.conftest import User
 
+
 def insert_all(db_session: Session):
     now = datetime.now()
     item1 = User(
@@ -26,12 +27,13 @@ def insert_all(db_session: Session):
     db_session.\
         insert_items([item1, item2, item3]).\
         commit()
-    
+
     all = db_session.\
         query(User).\
         all()
     assert len(all) == 3
-    
+
+
 def delete_all(db_session: Session):
     db_session.\
         delete(User).\
