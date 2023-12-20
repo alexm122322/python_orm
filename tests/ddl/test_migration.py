@@ -23,14 +23,25 @@ def init_engine() -> Engine:
     return engine
 
 
+def on_create(create_tables):
+    pass
+
+
 def migrate(migration: Migration, old_version: int, current_version: int):
     pass
+
+
+def test_on_create_called(mocker):
+    mock = mocker.patch(f'{__name__}.{on_create.__name__}')
+    engine = Engine(url, 1, on_create=on_create)
+    mock.assert_called_once()
+    engine.disconnect()
 
 
 def test_migration_called(mocker):
     mock = mocker.patch(f'{__name__}.{migrate.__name__}')
     init_engine()
-    engine = Engine(url, 1, migrate)
+    engine = Engine(url, 1, on_update=migrate)
     mock.assert_called_once()
     engine.drop_all_tables()
     engine.disconnect()

@@ -1,4 +1,4 @@
-from types import FunctionType
+from types import FunctionType, MethodType
 from typing import List
 from .drivers.sql_adapter_factory import SqlAdapterFactory
 from .drivers.session_factory import SessionFactory
@@ -21,6 +21,14 @@ def _on_update(migration: Migration, old_version: int, current_version: int):
     """
     pass
 
+def _on_create(create_table: FunctionType| MethodType):
+    """On Create temlate
+    
+    Args:
+        create_table: Function for creating tables. 
+    """
+    pass
+
 
 class Engine:
     """The Engine of python_orm package. 
@@ -31,16 +39,19 @@ class Engine:
         url: The object of database url.
         version: The version of the database. For migration purposes.
          0 by default.
+        on_create: Callback for tables creations. Check out the `_on_create` function.
         on_update: Callback for migration. Check out the `_on_update` function.
         connect: The object for connection.
         connection: The connection with the database.
         adapter: The SQL adapter. Contains methods and properties with SQL languages.
     """
 
-    def __init__(self, url: DbUrl, version: int = 0, on_update: FunctionType = _on_update):
+    def __init__(self, url: DbUrl, version: int = 0, on_create: FunctionType = _on_create,
+                 on_update: FunctionType = _on_update):
         self._url = url
         self.version = version
         self._on_update = on_update
+        self._on_create = on_create
         self._connect_to_db()
         self.adapter = SqlAdapterFactory.create(self.driver)
         self._migrate()
@@ -87,6 +98,7 @@ class Engine:
         session.create_table(OrmDBVersion)
         value = session.query(OrmDBVersion).first()
         if value is None:
+            self._on_create(self.create_tables)
             session.insert_item(OrmDBVersion(value=self.version)).\
                 commit()
 
