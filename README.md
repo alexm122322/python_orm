@@ -7,9 +7,9 @@ The engine of the python_orm is an entry point of the plugin. The engine create 
 Creates engine:
 
 ```python
-from python_orm import Url, Engine
+from python_orm import DbUrl, Engine
 
-url = Url(
+db_url = DbUrl(
     driver='psycopg2',
     host='localhost',
     database='test',
@@ -17,7 +17,23 @@ url = Url(
     password='1234',
     port='5432',
 )
-engine = Engine(url=url)
+engine = Engine(db_url=db_url)
+```
+
+The engine class has a on_create entry point. the argument of this function is `create_table` function which you can use for creating tables. The `on_create` function is called once if your database was not initialized before. In other cases please use the `on_update` callback:
+
+```python
+from python_orm import Migration, Engine
+
+
+def _on_create(create_tables):
+    create_tables([User, Project])
+
+engine = Engine(
+    db_url=db_url, 
+    version=1, 
+    on_create=_on_create,
+)
 ```
 
 The engine class is also a migration entry point. You can pass the `version` of the database and the `on_update` callback to the Engine constructor:
@@ -29,7 +45,7 @@ def _on_update(migration: Migration, old_version: int, current_version: int):
     pass
 
 engine = Engine(
-    url=url, 
+    db_url=db_url, 
     version=1, 
     on_update=_on_update,
 )
@@ -51,7 +67,7 @@ class Test(Model):
 def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.create_table(Test)
     
-engine = Engine(url, 1, migrate)
+engine = Engine(db_url, 1, on_update=migrate)
 ```
 
 ### Delete the table
@@ -63,7 +79,7 @@ from python_orm import Migration, Engine
 def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.delete_table('test')
     
-engine = Engine(url, 1, migrate)
+engine = Engine(db_url, 1, on_update=migrate)
 ```
 
 ### Add the column
@@ -75,7 +91,7 @@ from python_orm import Column, String, Migration, Engine
 def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.add_column('test', Column(name='value2', type=String()))
     
-engine = Engine(url, 1, migrate)
+engine = Engine(db_url, 1, migrate)
 ```
 
 ### Delete the column
@@ -87,7 +103,7 @@ from python_orm import Column, String, Migration, Engine
 def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.delete_column('test', 'value')
     
-engine = Engine(url, 1, migrate)
+engine = Engine(db_url, 1, migrate)
 ```
 
 ### Rename the table
@@ -99,7 +115,7 @@ from python_orm import Column, String, Migration, Engine
 def _on_update(migration: Migration, old_version: int, current_version: int):
     migration.change_table_name('test', 'test1')
     
-engine = Engine(url, 1, migrate)
+engine = Engine(db_url, 1, migrate)
 ```
 
 ## Close connection
@@ -112,7 +128,7 @@ Use `engine.drop_all_tables`
 
 ## Creating tables.
 
-The call of creating all tables runs when you start first time the engine. Next time please use migration capability.
+Next time please use migration capability.
 If you need to manually run creating all tables you should call `engine`.`create_all_tables`.
 
 ## Table Tamplates.
@@ -162,6 +178,8 @@ class Test(Model)
         onupdate='ON UPDATE'
     )
 ```
+
+If you need to add more than one foreign key just create a list of foreign keys or a second foreign key argument.
 
 ## Session
 The session creates the database cursor for executing SQL stmp and queries. 
@@ -302,3 +320,17 @@ session.delete(User).\
 ```
 
 You can use `where`, `and_`, `or_` methods for specifying deleting items. Working similar to `Queries`.`where`, `and_`, `or_` methods. 
+
+## Table information
+
+Using the session you can get columns or constraints information of the table. The first arg is a model type.
+
+Information about columns:
+```python
+infos = session.table_info(User).columns_info()
+```
+
+Information about constrains:
+```python
+infos = session.table_info(User).constrains_info()
+```
