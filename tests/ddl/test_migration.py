@@ -16,6 +16,11 @@ class Test(Model):
     value = Column(name='value', type=IntegerColumnType(), nullable=False)
 
 
+class Test2(Model):
+    __tablename__ = 'test2'
+    value = Column(name='value', type=IntegerColumnType())
+
+
 def init_engine() -> Engine:
     engine = Engine(db_url=url)
     engine.create_tables([Test])
@@ -91,10 +96,6 @@ def test_delete_column():
 def test_add_table():
     init_engine()
 
-    class Test2(Model):
-        __tablename__ = 'test2'
-        value = Column(name='value', type=IntegerColumnType())
-
     def migrate(migration: Migration, old_version: int, current_version: int):
         migration.create_table(Test2)
         tables = migration.table_list()
@@ -109,10 +110,6 @@ def test_add_table():
 
 def test_drop_table():
     init_engine()
-
-    class Test(Model):
-        __tablename__ = 'test'
-        value = Column(name='value', type=IntegerColumnType())
 
     def migrate(migration: Migration, old_version: int, current_version: int):
         migration.delete_table('test')
