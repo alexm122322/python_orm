@@ -6,6 +6,7 @@ from .dml.query import Query
 from .dml.insert import Insert
 from .dml.delete import Delete
 from .dml.update import Update
+from .dml.table_info import TableInfo
 from .drivers.sql_adapter import SqlAdapter
 from .ddl.create import CreateTable
 
@@ -158,3 +159,6 @@ class Session(ABC):
             CreateTable: The crete table object. 
         """
         return CreateTable(self.adapter, self).create(model)
+
+    def table_info(self, model) -> TableInfo:
+        return TableInfo(model, self.adapter, self)
