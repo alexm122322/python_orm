@@ -17,7 +17,7 @@ class Test(Model):
 
 
 def init_engine() -> Engine:
-    engine = Engine(url=url)
+    engine = Engine(db_url=url)
     engine.create_tables([Test])
     engine.disconnect()
     return engine

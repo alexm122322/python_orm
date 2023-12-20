@@ -36,7 +36,7 @@ class Engine:
     Check out the `_connect_to_db` function.
 
     Args:
-        url: The object of database url.
+        db_url: The object of database url.
         version: The version of the database. For migration purposes.
          0 by default.
         on_create: Callback for tables creations. Check out the `_on_create` function.
@@ -46,9 +46,9 @@ class Engine:
         adapter: The SQL adapter. Contains methods and properties with SQL languages.
     """
 
-    def __init__(self, url: DbUrl, version: int = 0, on_create: FunctionType = _on_create,
+    def __init__(self, db_url: DbUrl, version: int = 0, on_create: FunctionType = _on_create,
                  on_update: FunctionType = _on_update):
-        self._url = url
+        self._db_url = db_url
         self.version = version
         self._on_update = on_update
         self._on_create = on_create
@@ -79,7 +79,7 @@ class Engine:
     def _connect_to_db(self):
         """Creates connection with the database."""
         self.connect = ConnectionFactory.create(self.driver)
-        self.connection = self.connect.connect(self._url)
+        self.connection = self.connect.connect(self._db_url)
 
     def _migrate(self):
         """Migration flow."""
@@ -123,4 +123,4 @@ class Engine:
     @property
     def driver(self) -> str:
         """The driver name property"""
-        return self._url.driver
+        return self._db_url.driver

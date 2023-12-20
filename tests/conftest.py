@@ -47,7 +47,7 @@ def db_session(request) -> Generator:
     )
     def on_create(create_tables):
         create_tables([User, Project])
-    engine = Engine(url=url, on_create=on_create)
+    engine = Engine(db_url=url, on_create=on_create)
     session = create_session(engine)
     session.connect()
     try:

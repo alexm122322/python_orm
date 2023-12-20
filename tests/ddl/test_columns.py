@@ -10,7 +10,7 @@ url = DbUrl(
     port='5432',
 )
 
-engine = Engine(url=url)
+engine = Engine(db_url=url)
 
 
 def test_integer_columns():
