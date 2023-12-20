@@ -46,7 +46,7 @@ def db_session(request) -> Generator:
         port='5432',
     )
     engine = Engine(url=url)
-    # engine.create_all_tables()
+    engine.create_tables([User, Project])
 
     session = create_session(engine)
     session.connect()
@@ -56,7 +56,3 @@ def db_session(request) -> Generator:
         session.disconnect()
         engine.drop_all_tables()
         engine.disconnect()
-
-
-# next tasks:
-#     5. test creating table(different column types)

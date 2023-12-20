@@ -1,4 +1,5 @@
 from types import FunctionType
+from typing import List
 from .drivers.sql_adapter_factory import SqlAdapterFactory
 from .drivers.session_factory import SessionFactory
 from .drivers.connection_factory import ConnectionFactory
@@ -52,14 +53,12 @@ class Engine:
             session.execute(self.adapter.clear_database)
             session.commit()
 
-    def create_all_tables(self):
+    def create_tables(self, tables: List[Model]):
         """Creates all tables connected to the module."""
         seesion_obj = SessionFactory.create(
             self.driver, self.connection, self.adapter)
         with seesion_obj as session:
-            for item in Model.__subclasses__():
-                if isinstance(item, OrmDBVersion):
-                    continue
+            for item in tables:
                 session.create_table(item)
 
     def disconnect(self):
@@ -88,7 +87,6 @@ class Engine:
         session.create_table(OrmDBVersion)
         value = session.query(OrmDBVersion).first()
         if value is None:
-            self.create_all_tables()
             session.insert_item(OrmDBVersion(value=self.version)).\
                 commit()
 
