@@ -1,7 +1,9 @@
 from abc import ABC
 from datetime import datetime
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 from types import FunctionType
+
+from ..schemas import ColumnInfo, ConstrainsInfo
 
 _create_teble_query = '''CREATE TABLE {if_not_exist}{name}(
     {columns}{foreign_key}
@@ -17,6 +19,9 @@ class SqlAdapter(ABC):
     """Class for adapting SQL language for different relative databases.
     The class contains basic realization for Postgresql. 
     Childs should override some methods for specific SQL drivers."""
+
+    def __init__(self):
+        self.create_unique: bool = False
 
     def string_column(self, len: int) -> str:
         return f'VARCHAR({len})'
@@ -70,7 +75,7 @@ class SqlAdapter(ABC):
 
     def any_value(self, value: Any) -> str:
         if isinstance(value, FunctionType):
-            return value.__call__()
+            return value.__call__(self)
         elif isinstance(value, str):
             return f"'{value}'"
         elif isinstance(value, bool):
@@ -99,6 +104,10 @@ class SqlAdapter(ABC):
             sql += f'''
             ON UPDATE {onupdate}'''
         return sql
+
+    def primary_column(self, sql_column: str, is_autoincremented: bool):
+        pk_type = self.autoincrement if is_autoincremented else sql_column
+        return f'{pk_type} {self.primary_key}'
 
     def create_table(self, name: str, column_sqls: List[str],
                      if_not_exist: bool = False,
@@ -137,15 +146,14 @@ class SqlAdapter(ABC):
         return f'LIMIT {limit}'
 
     @property
-    def clear_database(self) -> str:
-        return '''DROP SCHEMA public CASCADE;
+    def clear_database(self) -> List[str]:
+        return ['''DROP SCHEMA public CASCADE;
 CREATE SCHEMA public; 
 GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO public;'''
+GRANT ALL ON SCHEMA public TO public;''']
 
     def insert_items(self, table: str, columns: List[str],
-                     list_values: List[List[Any]],
-                     id_column: str | None = None) -> str:
+                     list_values: List[List[Any]], id_column: str | None = None) -> str:
         columns_str = ', '.join(columns)
         values_str_list = []
         returing = f'\nRETURNING {id_column}' if id_column is not None else ''
@@ -208,6 +216,15 @@ FROM information_schema.columns
     WHERE table_schema = 'public'
     AND table_name = '{tablename}';'''
 
+    def table_columns_info_to_column_info(self, row: Tuple) -> ColumnInfo:
+        return ColumnInfo(
+            column_name=row[0],
+            column_default=row[1],
+            is_nullable=True if row[2] == 'YES' else False,
+            data_type=row[3],
+            character_maximum_length=row[4],
+        )
+
     def rename_table(self, old_name: str, new_name: str) -> str:
         return f'''{self._alter_table(old_name)}
     RENAME TO {new_name};'''
@@ -244,3 +261,17 @@ JOIN information_schema.constraint_column_usage AS ccu
 WHERE tc.table_schema='public'
     AND tc.table_name='{tablename}'	
     GROUP BY ts, cn, tn, kn, foreign_table_schema, foreign_table_name, foreign_column_name;'''
+
+    def table_constrains_info_to_constrains_info(self, row: Tuple, tablename: str) -> ConstrainsInfo:
+        return ConstrainsInfo(
+            table_schema=row[0],
+            constraint_name=row[1],
+            table_name=row[2],
+            column_name=row[3],
+            foreign_table_schema=row[4],
+            foreign_table_name=row[5],
+            foreign_column_name=row[6],
+        )
+
+    def create_unique_index(self, name: str, on_table: str, on_column: str) -> str:
+        return f'CREATE UNIQUE INDEX {name} ON {on_table}({on_column});'

@@ -3,7 +3,7 @@ from typing import Any, List, Tuple
 from ...session import Session
 
 
-class Psycopg2Sesion(Session):
+class SQLite3Sesion(Session):
     """Psycopg2 Session implementation."""
 
     def connect(self):

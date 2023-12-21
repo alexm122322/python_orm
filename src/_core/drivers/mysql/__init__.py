@@ -1,1 +1,0 @@
-"""Should be specific implementation for MySql."""

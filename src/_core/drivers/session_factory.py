@@ -8,6 +8,9 @@ from .sql_adapter import SqlAdapter
 from .psycopg2.constants import DRIVER_NAME as PSYCOPG2_DRIVER_NAME
 from .psycopg2.session import Psycopg2Sesion
 
+from .sqlite3.constants import DRIVER_NAME as SQLITE3_DRIVER_NAME
+from .sqlite3.session import SQLite3Sesion
+
 
 class SessionFactory(ABC):
     """The Session factory."""
@@ -25,5 +28,7 @@ class SessionFactory(ABC):
         """
         if driver == PSYCOPG2_DRIVER_NAME:
             return Psycopg2Sesion(connection, adapter)
+        elif driver == SQLITE3_DRIVER_NAME:
+            return SQLite3Sesion(connection, adapter)
 
         raise UnknownDriverError(f'unkknown driver {driver}')
