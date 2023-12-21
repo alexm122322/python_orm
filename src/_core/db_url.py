@@ -15,8 +15,8 @@ class DbUrl:
         password: The pasword to database. For example `1234`.
     """
     driver: str
-    host: str
-    port: str
     database: str
-    user: str
-    password: str
+    host: str | None = None
+    port: str | None = None
+    user: str | None = None
+    password: str | None = None
