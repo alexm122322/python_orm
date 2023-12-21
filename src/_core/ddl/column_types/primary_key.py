@@ -39,9 +39,7 @@ class PrimaryKeyColumnType(ColumnType):
             raise AutoincrementTypeError(
                 f'Type for autoincrement Primary Key should be {self._autoincrement_types}')
 
-        pk_type = adapter.autoincrement if self._is_autoincrement else self.type.sql(
-            adapter)
-        return f'{pk_type} {adapter.primary_key}'
+        return adapter.primary_column(self.type.sql(adapter), self._is_autoincrement)
 
     def validate_value(self, value: Any) -> bool:
         """Overriding of `ColumnType`.validate_value."""

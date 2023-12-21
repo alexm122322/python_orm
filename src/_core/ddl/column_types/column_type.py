@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from datetime import datetime
+from typing import Any, List
 from ..errors import ValueError
 
 from ...drivers.sql_adapter import SqlAdapter
@@ -26,7 +27,15 @@ class ColumnType(ABC):
         Returns:
             bool: True if value is valid. False if not.
         """
+        if isinstance(self.type, List):
+            for t in self.type:
+                if isinstance(value, t):
+                    return True
+            return False
         return isinstance(value, self.type)
+    
+    def fix_value(self, value: Any) -> Any:
+        return value
 
     @abstractmethod
     def _sql(self, adapter: SqlAdapter) -> str:

@@ -37,8 +37,7 @@ class ModelColumnValue:
         if value is not None and not self.column.type.validate_value(value):
             raise ValueError(
                 f'Value {value}{type(value)} for column({self.column}) is not valid.')
-
-        self._value = value
+        self._value = self.column.type.fix_value(value)
 
     @property
     def value(self) -> Any:
