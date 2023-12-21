@@ -12,9 +12,9 @@ from _core.ddl.migration import Migration
 from _core.engine import Engine
 from _core.db_url import DbUrl
 
-from _core.drivers.psycopg2.funcs.datetime import datetime_now as psycopg2_datetime_now
-
 from _core.session import Session
 from _core.create_session import create_session
 
 from _core.dml.query import Query
+
+from _core.functions.datetime import datetime_now
