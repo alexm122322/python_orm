@@ -1,5 +1,6 @@
 from typing import List
 from .column import Column
+from .column_types.primary_key import PrimaryKeyColumnType
 from .foreign_key import ForeignKey
 from ..drivers.sql_adapter import SqlAdapter
 
@@ -35,3 +36,10 @@ class CreateTable:
         )
         self._session.execute(query)
         self._session.commit()
+        if self._adapter.create_unique:
+            
+            unique_columns = [column for column in columns if column.unique and column.type is not PrimaryKeyColumnType]
+            for column in unique_columns:
+                sql = self._adapter.create_unique_index(f'{model.tn()}_{column.name}_idx', model.tn(), column.name)
+                self._session.execute(sql)
+            self._session.commit()
