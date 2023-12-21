@@ -5,6 +5,7 @@ from tests.conftest import User, Project
 from datetime import datetime
 from tests.init_funcs import delete_all
 
+
 def test_insert_item(db_session: Session):
     now = datetime.now()
     item = User(
@@ -104,5 +105,5 @@ def test_insert_different_items(db_session: Session):
         user_id = db_session.insert_items([user1, project])
     except Exception as e:
         assert isinstance(e, DifferentModelsTypeError)
-    
+
     delete_all(db_session)

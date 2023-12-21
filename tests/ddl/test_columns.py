@@ -2,12 +2,8 @@ from src.orm import (DbUrl, Model, Column, IntegerColumnType,
                      Engine, create_session, StringColumnType, Migration, BooleanColumnType, DatetimeColumnType)
 
 url = DbUrl(
-    driver='psycopg2',
-    host='localhost',
-    database='test1',
-    user='postgres',
-    password='1234',
-    port='5432',
+    driver='sqlite3',
+    database='tests/test.sqlite3',
 )
 
 engine = Engine(db_url=url)
@@ -41,8 +37,8 @@ def test_integer_columns():
         info = session.table_info(IntegerTest).columns_info()[0]
         assert info.column_name == 'value'
         assert info.column_default == None
-        assert info.is_nullable == 'NO'
-        assert info.data_type == 'integer'
+        assert info.is_nullable == False
+        assert info.data_type.lower() == 'integer'
         assert info.character_maximum_length == None
         migration.delete_table('integer_test')
 
@@ -53,10 +49,9 @@ def test_string_columns():
         migration.create_table(StringTest)
         info = session.table_info(StringTest).columns_info()[0]
         assert info.column_name == 'value'
-        assert info.column_default == "'s'::character varying"
-        assert info.is_nullable == 'NO'
-        assert info.data_type == 'character varying'
-        assert info.character_maximum_length == 1
+        assert info.column_default == "'s'"
+        assert info.is_nullable == False
+        assert info.data_type.lower() == 'text'
         migration.delete_table('string_test')
     engine.drop_all_tables()
 
@@ -68,7 +63,7 @@ def test_boolean_columns():
         info = session.table_info(BooleanTest).columns_info()[0]
         assert info.column_name == 'value'
         assert info.column_default == None
-        assert info.is_nullable == 'YES'
+        assert info.is_nullable == True
         assert info.data_type.lower() == engine.adapter.boolean_column.lower()
         assert info.character_maximum_length == None
         migration.delete_table('boolean_test')
@@ -82,8 +77,8 @@ def test_datetime_columns():
         info = session.table_info(DatetimeTest).columns_info()[0]
         assert info.column_name == 'value'
         assert info.column_default == None
-        assert info.is_nullable == 'YES'
-        assert info.data_type == 'timestamp without time zone'
+        assert info.is_nullable == True
+        assert info.data_type.lower().__contains__('timestamp')
         assert info.character_maximum_length == None
         migration.delete_table('datetime_test')
     engine.drop_all_tables()

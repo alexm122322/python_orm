@@ -1,13 +1,10 @@
 from src.orm import Engine, DbUrl, create_session, Model, Column, IntegerColumnType, PrimaryKeyColumnType, ForeignKey
 
 db_url = DbUrl(
-    driver='psycopg2',
-    host='localhost',
-    database='test1',
-    user='postgres',
-    password='1234',
-    port='5432',
+    driver='sqlite3',
+    database='tests/test.sqlite3',
 )
+
 
 class Test1(Model):
     __tablename__ = 'test1'
@@ -62,8 +59,8 @@ def test_create_with_one_f_keys():
         infos = session.table_info(Test2).constrains_info()
         target_info = None
         for info in infos:
-            if info.constraint_name == 'fk_test1':
-               target_info = info
+            if info.column_name == 'test1_id':
+                target_info = info
         assert target_info is not None
         assert target_info.column_name == 'test1_id'
         assert target_info.foreign_table_name == 'test1'
@@ -80,15 +77,15 @@ def test_create_with_few_f_keys():
         target_info1 = None
         target_info2 = None
         for info in infos:
-            if info.constraint_name == 'fk_test1':
-               target_info1 = info
-            elif info.constraint_name == 'fk_test2':
-               target_info2 = info
+            if info.column_name == 'test1_id':
+                target_info1 = info
+            elif info.column_name == 'test2_id':
+                target_info2 = info
         assert target_info1 is not None
         assert target_info1.column_name == 'test1_id'
         assert target_info1.foreign_table_name == 'test1'
         assert target_info1.foreign_column_name == 'id'
-        
+
         assert target_info2 is not None
         assert target_info2.column_name == 'test2_id'
         assert target_info2.foreign_table_name == 'test2'

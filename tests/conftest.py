@@ -3,11 +3,12 @@ from src.orm import Engine, DbUrl, create_session
 import pytest
 
 
-from src.orm import Model, Column, IntegerColumnType, PrimaryKeyColumnType, ForeignKey, DatetimeColumnType, psycopg2_datetime_now, BooleanColumnType, StringColumnType
+from src.orm import (Model, Column, IntegerColumnType, PrimaryKeyColumnType,
+                     ForeignKey, DatetimeColumnType, BooleanColumnType, StringColumnType, datetime_now)
 
 
 class User(Model):
-    __tablename__ = '"user"'
+    __tablename__ = 'user'
 
     id = Column(name='id', type=PrimaryKeyColumnType(
         type=IntegerColumnType(), autoincrement=True), unique=True)
@@ -16,7 +17,7 @@ class User(Model):
     age = Column(name='age', type=IntegerColumnType(default=18))
     is_admin = Column(name='is_admin', type=BooleanColumnType(default=True))
     create_at = Column(name='create_at', type=DatetimeColumnType(
-        default=psycopg2_datetime_now))
+        default=datetime_now))
 
 
 class Project(Model):
@@ -40,16 +41,13 @@ class Project(Model):
 @pytest.fixture(scope='session')
 def db_session(request) -> Generator:
     url = DbUrl(
-        driver='psycopg2',
-        host='localhost',
-        database='test',
-        user='postgres',
-        password='1234',
-        port='5432',
+        driver='sqlite3',
+        database='tests/test.sqlite3',
     )
 
     def on_create(create_tables):
         create_tables([User, Project])
+
     engine = Engine(db_url=url, on_create=on_create)
     session = create_session(engine)
     session.connect()

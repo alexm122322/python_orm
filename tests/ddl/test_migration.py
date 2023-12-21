@@ -2,12 +2,8 @@ from src.orm import Migration, DbUrl, Engine, Model, Column, IntegerColumnType, 
 
 
 url = DbUrl(
-    driver='psycopg2',
-    host='localhost',
-    database='test1',
-    user='postgres',
-    password='1234',
-    port='5432',
+    driver='sqlite3',
+    database='tests/test.sqlite3',
 )
 
 

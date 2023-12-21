@@ -2,6 +2,7 @@ from src.orm import Session
 from tests.conftest import User
 from tests.init_funcs import insert_all, delete_all
 
+
 def test_delete_all(db_session: Session):
     insert_all(db_session)
     delete_all(db_session)
