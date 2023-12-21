@@ -216,7 +216,7 @@ FROM information_schema.columns
     WHERE table_schema = 'public'
     AND table_name = '{tablename}';'''
 
-    def table_columns_info_to_column_info(self, row: Tuple) -> ColumnInfo:
+    def columns_info_row_to_column_info(self, row: Tuple) -> ColumnInfo:
         return ColumnInfo(
             column_name=row[0],
             column_default=row[1],
@@ -262,7 +262,7 @@ WHERE tc.table_schema='public'
     AND tc.table_name='{tablename}'	
     GROUP BY ts, cn, tn, kn, foreign_table_schema, foreign_table_name, foreign_column_name;'''
 
-    def table_constrains_info_to_constrains_info(self, row: Tuple, tablename: str) -> ConstrainsInfo:
+    def constrains_info_row_to_constrains_info(self, row: Tuple, tablename: str) -> ConstrainsInfo:
         return ConstrainsInfo(
             table_schema=row[0],
             constraint_name=row[1],

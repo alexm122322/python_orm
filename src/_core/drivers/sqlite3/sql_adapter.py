@@ -7,7 +7,7 @@ from ...schemas import ColumnInfo, ConstrainsInfo
 
 
 class SqLite3SqlAdapter(SqlAdapter):
-    """The specific implementation of SQL adapter for SQLite driver."""
+    """The specific implementation of SQL adapter for sqlite3 driver."""
 
     def __init__(self):
         self.create_unique: bool = True
@@ -94,7 +94,7 @@ class SqLite3SqlAdapter(SqlAdapter):
         """
         return f'''pragma table_info({tablename});'''
 
-    def table_columns_info_to_column_info(self, row: Tuple) -> ColumnInfo:
+    def columns_info_row_to_column_info(self, row: Tuple) -> ColumnInfo:
         return ColumnInfo(
             column_name=row[1],
             column_default=row[4],
@@ -106,7 +106,7 @@ class SqLite3SqlAdapter(SqlAdapter):
     def table_constraints_info(self, tablename: str) -> str:
         return f"pragma foreign_key_list({tablename});"
 
-    def table_constrains_info_to_constrains_info(self, row: Tuple, tablename: str) -> ConstrainsInfo:
+    def constrains_info_row_to_constrains_info(self, row: Tuple, tablename: str) -> ConstrainsInfo:
         return ConstrainsInfo(
             table_schema=None,
             constraint_name=None,

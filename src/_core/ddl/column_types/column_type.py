@@ -35,6 +35,15 @@ class ColumnType(ABC):
         return isinstance(value, self.type)
     
     def fix_value(self, value: Any) -> Any:
+        """Fixes value if needed. For example int to bool purposes.
+        See the `Column Type` implementations for details.
+        
+        Args:
+            value: Any column value.
+            
+        Return:
+            Any: Fixed value.
+        """
         return value
 
     @abstractmethod

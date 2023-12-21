@@ -66,7 +66,11 @@ class Engine:
             session.commit()
 
     def create_tables(self, tables: List[Model]):
-        """Creates all tables connected to the module."""
+        """Creates all tables connected to the module.
+        
+        Args:
+            tables: A list of table classes that need to be created.
+        """
         seesion_obj = SessionFactory.create(
             self.driver, self.connection, self.adapter)
         with seesion_obj as session:

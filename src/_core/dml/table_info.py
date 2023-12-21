@@ -31,7 +31,7 @@ class TableInfo:
         rows = self._session.fetch_all(sql)
         infos = []
         for row in rows:
-            info = self._adapter.table_columns_info_to_column_info(row)
+            info = self._adapter.columns_info_row_to_column_info(row)
             infos.append(info)
         return infos
 
@@ -45,7 +45,7 @@ class TableInfo:
         rows = self._session.fetch_all(sql)
         infos = []
         for row in rows:
-            info = self._adapter.table_constrains_info_to_constrains_info(
+            info = self._adapter.constrains_info_row_to_constrains_info(
                 row, self.model.tn())
             infos.append(info)
         return infos

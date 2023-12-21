@@ -4,7 +4,7 @@ from ...session import Session
 
 
 class SQLite3Sesion(Session):
-    """Psycopg2 Session implementation."""
+    """sqlite3 Session implementation."""
 
     def connect(self):
         super().connect()

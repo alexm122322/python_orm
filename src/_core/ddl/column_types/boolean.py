@@ -17,6 +17,14 @@ class BooleanColumnType(ColumnType):
         return adapter.boolean_column
 
     def fix_value(self, value: Any) -> bool:
+        """Convert int value to bool if needed. Sqlite3 purposes.
+        
+        Args:
+            value: Any column value.
+            
+        Return:
+            Any: Fixed value.
+        """
         if isinstance(value, bool):
             return value
         elif isinstance(value, int):

@@ -6,7 +6,7 @@ from ...db_url import DbUrl
 
 
 class SQLite3Connection(Connectin):
-    """Psycopg2 Connection implementation."""
+    """sqlite3 Connection implementation."""
 
     def connect(self, url: DbUrl) -> Any:
         self.connection = sqlite3.connect(url.database, detect_types=sqlite3.PARSE_DECLTYPES |
