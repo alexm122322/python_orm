@@ -61,7 +61,8 @@ class Engine:
         seesion_obj = SessionFactory.create(
             self.driver, self.connection, self.adapter)
         with seesion_obj as session:
-            session.execute(self.adapter.clear_database)
+            for sql in self.adapter.clear_database:
+                session.execute(sql)
             session.commit()
 
     def create_tables(self, tables: List[Model]):
