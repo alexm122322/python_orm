@@ -16,20 +16,7 @@ class Migration:
     def __init__(self, adapter: SqlAdapter, session):
         self._adapter = adapter
         self._session = session
-
-    def table_columns(self, tablename: str) -> List[str]:
-        """Fetches all columns names from Table.
-
-        Args:
-            tablename : A name of the table.
-
-        Returns:
-            List[str]: A list of column names.
-        """
-        sql = self._adapter.table_columns(tablename)
-        names = self._session.fetch_all(sql)
-        return [name[0] for name in names]
-
+        
     def table_list(self) -> List[str]:
         """Fetches a list of table names from Databse.
 
