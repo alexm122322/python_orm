@@ -20,6 +20,10 @@ db_url = DbUrl(
 engine = Engine(db_url=db_url)
 ```
 
+Supported drivers:
+- psycopg2
+- sqlite3
+
 The engine class has a on_create entry point. the argument of this function is `create_table` function which you can use for creating tables. The `on_create` function is called once if your database was not initialized before. In other cases please use the `on_update` callback:
 
 ```python
